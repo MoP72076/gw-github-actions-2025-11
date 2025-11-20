@@ -5,6 +5,9 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: gw-message-demo
+
+permissions: 
+  packages: write
 jobs:    
   build:
     runs-on: ubuntu-latest
