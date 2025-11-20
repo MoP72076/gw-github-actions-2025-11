@@ -1,0 +1,22 @@
+name: 13-jobs-needs-multiple
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "build linux step 1"
+  build-windows:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "build windows step 1"
+      - run: sleep 45s
+  deploy:
+    runs-on: ubuntu-latest
+    #needs: [build-windows, build-linux]
+    needs:
+      - build-windows
+      - build-linux
+    steps:
+      - run: echo "deploy step 1"
