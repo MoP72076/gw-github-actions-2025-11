@@ -10,11 +10,15 @@ on:
         options:
         - 'option 1'
         - 'option 2'
-       proptery2:
+       property2:
         description: 'Property 2'
         type: string
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo $"Build Run manuell {{ inputs.property1 }} {{ inputs.property2 }}"
+      - run: echo "Build Run manuell $PROPERTY1 $PROPERTY2"
+        env:
+            PROPERTY1:  ${{ inputs.property1 }}
+            PROPERTY2:  ${{ inputs.property2 }}
+    
