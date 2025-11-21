@@ -6,4 +6,4 @@ jobs:
     runs-on: ubuntu-latest
     environment: Demo
     steps:
-      - run: echo ${{ env.DEMO_ENV }}
+      - run: echo ${{ vars.DEMO_ENV }}
