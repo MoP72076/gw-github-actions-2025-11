@@ -1,6 +1,7 @@
 name: 23-environment
 on:
   push:
+  workflow_dispatch:
 jobs:
   showenv:
     runs-on: ubuntu-latest
