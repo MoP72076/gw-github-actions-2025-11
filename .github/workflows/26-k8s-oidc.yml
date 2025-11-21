@@ -1,0 +1,24 @@
+name: OIDC
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:  
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+            export TOKEN=$(curl -sSL -X GET "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=oidc-github-action" \
+              -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" | jq -r '.value')
+            kubectl config set-credentials github-actions --token=$TOKEN 
+            kubectl config set-cluster k8s-demo --server=https://49.13.23.0:6443 --insecure-skip-tls-verify=true
+            kubectl config set-context github-actions --cluster=k8s-demo --user=github-actions
+            kubectl config use-context github-actions
+            kubectl config view
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f ./Manifest/deployment.yaml -n oidc-demo
